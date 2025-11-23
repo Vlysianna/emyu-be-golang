@@ -1,0 +1,717 @@
+# Insomnia API Collection for EMYU E-Commerce Backend (Golang)
+_type: export
+__export_version: 4
+__export_date: 2025-11-23T00:00:00.000Z
+__export_source: insomnia.rest
+
+name: EMYU E-Commerce API (Golang)
+type: Collection
+description: Complete API collection for EMYU E-Commerce Backend built with Golang & Gin framework
+
+# Environment configuration
+environments:
+  Development:
+    base_url: http://localhost:8080
+    auth_token: ""
+    admin_token: ""
+
+folders:
+  # ========================================
+  # AUTHENTICATION
+  # ========================================
+  - _id: fold_auth
+    name: 1. AUTHENTICATION
+    description: User registration, login, and logout
+    _type: request_group
+    children:
+      - _id: req_register
+        name: Register New User
+        method: POST
+        url: "{{ base_url }}/api/register"
+        description: Register a new user account
+        body:
+          mimeType: application/json
+          text: |
+            {
+              "name": "John Doe",
+              "email": "john@example.com",
+              "password": "password123",
+              "phone": "08123456789"
+            }
+        notes: |
+          Response will include user data and JWT token.
+          Default role: 'user'
+        
+      - _id: req_register_admin
+        name: Register Admin User
+        method: POST
+        url: "{{ base_url }}/api/register"
+        description: Register an admin account (for testing)
+        body:
+          mimeType: application/json
+          text: |
+            {
+              "name": "Admin User",
+              "email": "admin@emyu.com",
+              "password": "admin123",
+              "phone": "08111111111"
+            }
+        notes: |
+          After registration, manually update role to 'admin' in database
+        
+      - _id: req_login
+        name: Login
+        method: POST
+        url: "{{ base_url }}/api/login"
+        description: Login with email and password
+        body:
+          mimeType: application/json
+          text: |
+            {
+              "email": "john@example.com",
+              "password": "password123"
+            }
+        notes: |
+          Response includes JWT token. Copy token to auth_token variable.
+        
+      - _id: req_login_admin
+        name: Login as Admin
+        method: POST
+        url: "{{ base_url }}/api/login"
+        description: Login with admin credentials
+        body:
+          mimeType: application/json
+          text: |
+            {
+              "email": "admin@emyu.com",
+              "password": "admin123"
+            }
+        notes: |
+          Copy admin token to admin_token variable.
+        
+      - _id: req_logout
+        name: Logout
+        method: POST
+        url: "{{ base_url }}/api/logout"
+        description: Logout current user
+        headers:
+          - name: Authorization
+            value: "Bearer {{ auth_token }}"
+
+  # ========================================
+  # PRODUCTS (Public & Admin)
+  # ========================================
+  - _id: fold_products
+    name: 2. PRODUCTS
+    description: Product management - public read access, admin write access
+    _type: request_group
+    children:
+      - _id: req_get_products
+        name: Get All Products (Public)
+        method: GET
+        url: "{{ base_url }}/api/products"
+        description: Get list of all products
+        notes: |
+          Public endpoint - no authentication required.
+          Returns all products ordered by creation date (newest first).
+        
+      - _id: req_get_product
+        name: Get Product by ID (Public)
+        method: GET
+        url: "{{ base_url }}/api/products/PRODUCT_ID"
+        description: Get detailed information of a specific product
+        notes: |
+          Public endpoint - no authentication required.
+          Replace PRODUCT_ID with actual product ID.
+        
+      - _id: req_create_product
+        name: Create Product (Admin Only)
+        method: POST
+        url: "{{ base_url }}/api/products"
+        description: Create a new product
+        headers:
+          - name: Authorization
+            value: "Bearer {{ admin_token }}"
+        body:
+          mimeType: application/json
+          text: |
+            {
+              "name": "Custom Jersey",
+              "description": "High quality custom jersey with name and number",
+              "price": 299000,
+              "category_id": "CATEGORY_ID",
+              "is_customizable": true
+            }
+        notes: |
+          Admin only. Requires valid category_id.
+          Price in IDR (Indonesian Rupiah).
+        
+      - _id: req_update_product
+        name: Update Product (Admin Only)
+        method: PUT
+        url: "{{ base_url }}/api/products/PRODUCT_ID"
+        description: Update existing product
+        headers:
+          - name: Authorization
+            value: "Bearer {{ admin_token }}"
+        body:
+          mimeType: application/json
+          text: |
+            {
+              "name": "Updated Product Name",
+              "description": "Updated description",
+              "price": 350000,
+              "category_id": "CATEGORY_ID",
+              "is_customizable": true
+            }
+        notes: |
+          Admin only. All fields are optional (partial update supported).
+        
+      - _id: req_delete_product
+        name: Delete Product (Admin Only)
+        method: DELETE
+        url: "{{ base_url }}/api/products/PRODUCT_ID"
+        description: Delete a product
+        headers:
+          - name: Authorization
+            value: "Bearer {{ admin_token }}"
+        notes: |
+          Admin only. Permanently deletes product.
+
+  # ========================================
+  # CATEGORIES (Public & Admin)
+  # ========================================
+  - _id: fold_categories
+    name: 3. CATEGORIES
+    description: Product category management
+    _type: request_group
+    children:
+      - _id: req_get_categories
+        name: Get All Categories (Public)
+        method: GET
+        url: "{{ base_url }}/api/categories"
+        description: Get list of all categories
+        notes: |
+          Public endpoint - no authentication required.
+        
+      - _id: req_get_category
+        name: Get Category by ID (Public)
+        method: GET
+        url: "{{ base_url }}/api/categories/CATEGORY_ID"
+        description: Get detailed information of a specific category
+        notes: |
+          Public endpoint - no authentication required.
+        
+      - _id: req_create_category
+        name: Create Category (Admin Only)
+        method: POST
+        url: "{{ base_url }}/api/categories"
+        description: Create a new product category
+        headers:
+          - name: Authorization
+            value: "Bearer {{ admin_token }}"
+        body:
+          mimeType: application/json
+          text: |
+            {
+              "name": "Sports Jersey",
+              "description": "Custom sports jerseys for various teams"
+            }
+        notes: |
+          Admin only. Name is required, description is optional.
+        
+      - _id: req_update_category
+        name: Update Category (Admin Only)
+        method: PUT
+        url: "{{ base_url }}/api/categories/CATEGORY_ID"
+        description: Update existing category
+        headers:
+          - name: Authorization
+            value: "Bearer {{ admin_token }}"
+        body:
+          mimeType: application/json
+          text: |
+            {
+              "name": "Updated Category Name",
+              "description": "Updated category description"
+            }
+        notes: |
+          Admin only. All fields are optional (partial update supported).
+        
+      - _id: req_delete_category
+        name: Delete Category (Admin Only)
+        method: DELETE
+        url: "{{ base_url }}/api/categories/CATEGORY_ID"
+        description: Delete a category
+        headers:
+          - name: Authorization
+            value: "Bearer {{ admin_token }}"
+        notes: |
+          Admin only. Cannot delete category with existing products.
+
+  # ========================================
+  # SHOPPING CART
+  # ========================================
+  - _id: fold_cart
+    name: 4. SHOPPING CART
+    description: Shopping cart management for authenticated users
+    _type: request_group
+    children:
+      - _id: req_get_cart
+        name: Get User Cart
+        method: GET
+        url: "{{ base_url }}/api/carts"
+        description: Get current user's shopping cart with items
+        headers:
+          - name: Authorization
+            value: "Bearer {{ auth_token }}"
+        notes: |
+          Returns cart with all items, or 404 if cart doesn't exist.
+        
+      - _id: req_create_cart
+        name: Create Cart
+        method: POST
+        url: "{{ base_url }}/api/carts"
+        description: Create a new shopping cart for current user
+        headers:
+          - name: Authorization
+            value: "Bearer {{ auth_token }}"
+        notes: |
+          Usually called automatically when user adds first item.
+        
+      - _id: req_add_to_cart
+        name: Add Item to Cart
+        method: POST
+        url: "{{ base_url }}/api/cart-items"
+        description: Add a product variant to cart
+        headers:
+          - name: Authorization
+            value: "Bearer {{ auth_token }}"
+        body:
+          mimeType: application/json
+          text: |
+            {
+              "cart_id": "CART_ID",
+              "product_variant_id": "VARIANT_ID",
+              "quantity": 1,
+              "custom_name": "PLAYER NAME",
+              "custom_number": "99"
+            }
+        notes: |
+          custom_name and custom_number are optional.
+          Only required if product is customizable.
+        
+      - _id: req_update_cart_item
+        name: Update Cart Item
+        method: PUT
+        url: "{{ base_url }}/api/cart-items/ITEM_ID"
+        description: Update cart item quantity or customization
+        headers:
+          - name: Authorization
+            value: "Bearer {{ auth_token }}"
+        body:
+          mimeType: application/json
+          text: |
+            {
+              "quantity": 3,
+              "custom_name": "UPDATED NAME",
+              "custom_number": "10"
+            }
+        notes: |
+          All fields are optional. Only provide fields you want to update.
+        
+      - _id: req_remove_from_cart
+        name: Remove Item from Cart
+        method: DELETE
+        url: "{{ base_url }}/api/cart-items/ITEM_ID"
+        description: Remove an item from cart
+        headers:
+          - name: Authorization
+            value: "Bearer {{ auth_token }}"
+        notes: |
+          Permanently removes item from cart.
+
+  # ========================================
+  # ORDERS
+  # ========================================
+  - _id: fold_orders
+    name: 5. ORDERS
+    description: Order management and checkout
+    _type: request_group
+    children:
+      - _id: req_get_orders
+        name: Get User Orders
+        method: GET
+        url: "{{ base_url }}/api/orders"
+        description: Get all orders for current user
+        headers:
+          - name: Authorization
+            value: "Bearer {{ auth_token }}"
+        notes: |
+          Returns orders sorted by creation date (newest first).
+        
+      - _id: req_get_order
+        name: Get Order by ID
+        method: GET
+        url: "{{ base_url }}/api/orders/ORDER_ID"
+        description: Get detailed information of a specific order
+        headers:
+          - name: Authorization
+            value: "Bearer {{ auth_token }}"
+        notes: |
+          Returns order with all items and details.
+        
+      - _id: req_create_order
+        name: Create Order (Checkout)
+        method: POST
+        url: "{{ base_url }}/api/orders"
+        description: Create order from cart items (checkout)
+        headers:
+          - name: Authorization
+            value: "Bearer {{ auth_token }}"
+        body:
+          mimeType: application/json
+          text: |
+            {
+              "total_amount": 599000,
+              "shipping_cost": 25000,
+              "payment_method": "bank_transfer",
+              "shipping_address_id": "ADDRESS_ID"
+            }
+        notes: |
+          payment_method: bank_transfer, e_wallet, cod
+          Order status will be set to 'pending' initially.
+          Generates unique order_number automatically.
+        
+      - _id: req_update_order_status
+        name: Update Order Status (Admin Only)
+        method: PUT
+        url: "{{ base_url }}/api/orders/ORDER_ID"
+        description: Update order status (admin only)
+        headers:
+          - name: Authorization
+            value: "Bearer {{ admin_token }}"
+        body:
+          mimeType: application/json
+          text: |
+            {
+              "status": "paid"
+            }
+        notes: |
+          Admin only. 
+          Valid statuses: pending, paid, packed, shipped, delivered, canceled
+        
+      - _id: req_delete_order
+        name: Delete Order (Admin Only)
+        method: DELETE
+        url: "{{ base_url }}/api/orders/ORDER_ID"
+        description: Delete an order (admin only)
+        headers:
+          - name: Authorization
+            value: "Bearer {{ admin_token }}"
+        notes: |
+          Admin only. Use with caution.
+
+  # ========================================
+  # PAYMENTS
+  # ========================================
+  - _id: fold_payments
+    name: 6. PAYMENTS
+    description: Payment processing and tracking
+    _type: request_group
+    children:
+      - _id: req_get_payments
+        name: Get All Payments
+        method: GET
+        url: "{{ base_url }}/api/payments"
+        description: Get all payments for current user
+        headers:
+          - name: Authorization
+            value: "Bearer {{ auth_token }}"
+        notes: |
+          Returns user's payment history.
+        
+      - _id: req_get_payment
+        name: Get Payment by ID
+        method: GET
+        url: "{{ base_url }}/api/payments/PAYMENT_ID"
+        description: Get detailed payment information
+        headers:
+          - name: Authorization
+            value: "Bearer {{ auth_token }}"
+        notes: |
+          Returns payment details including status and code.
+        
+      - _id: req_create_payment
+        name: Create Payment
+        method: POST
+        url: "{{ base_url }}/api/payments"
+        description: Create payment record for an order
+        headers:
+          - name: Authorization
+            value: "Bearer {{ auth_token }}"
+        body:
+          mimeType: application/json
+          text: |
+            {
+              "order_id": "ORDER_ID",
+              "payment_status": "pending"
+            }
+        notes: |
+          payment_status: pending, success, failed
+          Generates unique payment_code automatically.
+        
+      - _id: req_update_payment
+        name: Update Payment Status
+        method: PUT
+        url: "{{ base_url }}/api/payments/PAYMENT_ID"
+        description: Update payment status
+        headers:
+          - name: Authorization
+            value: "Bearer {{ auth_token }}"
+        body:
+          mimeType: application/json
+          text: |
+            {
+              "payment_status": "success"
+            }
+        notes: |
+          Valid statuses: pending, success, failed
+          Sets paid_at timestamp when status is 'success'.
+
+
+  # ========================================
+  # REVIEWS
+  # ========================================
+  - _id: fold_reviews
+    name: 7. REVIEWS
+    description: Product reviews and ratings
+    _type: request_group
+    children:
+      - _id: req_get_product_reviews
+        name: Get Product Reviews (Public)
+        method: GET
+        url: "{{ base_url }}/api/reviews/products/PRODUCT_ID"
+        description: Get all reviews for a specific product
+        notes: |
+          Public endpoint - no authentication required.
+          Replace PRODUCT_ID with actual product ID.
+        
+      - _id: req_get_user_reviews
+        name: Get User Reviews
+        method: GET
+        url: "{{ base_url }}/api/reviews/user"
+        description: Get all reviews written by current user
+        headers:
+          - name: Authorization
+            value: "Bearer {{ auth_token }}"
+        notes: |
+          Returns user's review history.
+        
+      - _id: req_create_review
+        name: Create Review
+        method: POST
+        url: "{{ base_url }}/api/reviews"
+        description: Create a product review
+        headers:
+          - name: Authorization
+            value: "Bearer {{ auth_token }}"
+        body:
+          mimeType: application/json
+          text: |
+            {
+              "product_id": "PRODUCT_ID",
+              "rating": 5,
+              "comment": "Excellent product! Great quality and fast delivery."
+            }
+        notes: |
+          rating: 1-5 (integer)
+          comment is optional but recommended
+        
+      - _id: req_update_review
+        name: Update Review
+        method: PUT
+        url: "{{ base_url }}/api/reviews/REVIEW_ID"
+        description: Update existing review
+        headers:
+          - name: Authorization
+            value: "Bearer {{ auth_token }}"
+        body:
+          mimeType: application/json
+          text: |
+            {
+              "rating": 4,
+              "comment": "Good product, updated my review."
+            }
+        notes: |
+          Can only update own reviews.
+          All fields are optional (partial update supported).
+        
+      - _id: req_delete_review
+        name: Delete Review
+        method: DELETE
+        url: "{{ base_url }}/api/reviews/REVIEW_ID"
+        description: Delete a review
+        headers:
+          - name: Authorization
+            value: "Bearer {{ auth_token }}"
+        notes: |
+          Can only delete own reviews.
+
+  # ========================================
+  # SHIPPING ADDRESSES
+  # ========================================
+  - _id: fold_shipping
+    name: 8. SHIPPING ADDRESSES
+    description: User shipping address management
+    _type: request_group
+    children:
+      - _id: req_get_addresses
+        name: Get Shipping Addresses
+        method: GET
+        url: "{{ base_url }}/api/shipping-addresses"
+        description: Get all shipping addresses for current user
+        headers:
+          - name: Authorization
+            value: "Bearer {{ auth_token }}"
+        notes: |
+          Returns user's saved addresses.
+        
+      - _id: req_get_address
+        name: Get Address by ID
+        method: GET
+        url: "{{ base_url }}/api/shipping-addresses/ADDRESS_ID"
+        description: Get specific shipping address details
+        headers:
+          - name: Authorization
+            value: "Bearer {{ auth_token }}"
+        notes: |
+          Can only access own addresses.
+        
+      - _id: req_create_address
+        name: Create Shipping Address
+        method: POST
+        url: "{{ base_url }}/api/shipping-addresses"
+        description: Add a new shipping address
+        headers:
+          - name: Authorization
+            value: "Bearer {{ auth_token }}"
+        body:
+          mimeType: application/json
+          text: |
+            {
+              "address": "Jl. Merdeka No. 123, Kelurahan ABC",
+              "city": "Jakarta Selatan",
+              "province": "DKI Jakarta",
+              "postal_code": "12345",
+              "phone": "08123456789"
+            }
+        notes: |
+          All fields are required.
+        
+      - _id: req_update_address
+        name: Update Shipping Address
+        method: PUT
+        url: "{{ base_url }}/api/shipping-addresses/ADDRESS_ID"
+        description: Update existing shipping address
+        headers:
+          - name: Authorization
+            value: "Bearer {{ auth_token }}"
+        body:
+          mimeType: application/json
+          text: |
+            {
+              "address": "Jl. Kemerdekaan No. 456, Updated",
+              "city": "Bandung",
+              "province": "Jawa Barat",
+              "postal_code": "40123",
+              "phone": "08198765432"
+            }
+        notes: |
+          Can only update own addresses.
+          All fields are optional (partial update supported).
+        
+      - _id: req_delete_address
+        name: Delete Shipping Address
+        method: DELETE
+        url: "{{ base_url }}/api/shipping-addresses/ADDRESS_ID"
+        description: Delete a shipping address
+        headers:
+          - name: Authorization
+            value: "Bearer {{ auth_token }}"
+        notes: |
+          Can only delete own addresses.
+
+  # ========================================
+  # USER MANAGEMENT (Admin Only)
+  # ========================================
+  - _id: fold_users
+    name: 9. USER MANAGEMENT (Admin)
+    description: User administration and management
+    _type: request_group
+    children:
+      - _id: req_get_all_users
+        name: Get All Users (Admin)
+        method: GET
+        url: "{{ base_url }}/api/users"
+        description: Get list of all users
+        headers:
+          - name: Authorization
+            value: "Bearer {{ admin_token }}"
+        notes: |
+          Admin only. Returns all registered users.
+        
+      - _id: req_get_user
+        name: Get User by ID (Admin)
+        method: GET
+        url: "{{ base_url }}/api/users/USER_ID"
+        description: Get detailed user information
+        headers:
+          - name: Authorization
+            value: "Bearer {{ admin_token }}"
+        notes: |
+          Admin only. Returns user details without password.
+        
+      - _id: req_update_user
+        name: Update User (Admin)
+        method: PUT
+        url: "{{ base_url }}/api/users/USER_ID"
+        description: Update user information
+        headers:
+          - name: Authorization
+            value: "Bearer {{ admin_token }}"
+        body:
+          mimeType: application/json
+          text: |
+            {
+              "name": "Updated Name",
+              "email": "newemail@example.com",
+              "phone": "08987654321",
+              "role": "user"
+            }
+        notes: |
+          Admin only. Can change user role (user/admin).
+          All fields are optional (partial update supported).
+        
+      - _id: req_delete_user
+        name: Delete User (Admin)
+        method: DELETE
+        url: "{{ base_url }}/api/users/USER_ID"
+        description: Delete a user account
+        headers:
+          - name: Authorization
+            value: "Bearer {{ admin_token }}"
+        notes: |
+          Admin only. Use with caution - permanently deletes user.
+        
+      - _id: req_user_stats
+        name: Get User Stats (Admin)
+        method: GET
+        url: "{{ base_url }}/api/users/USER_ID/stats"
+        description: Get user statistics and activity
+        headers:
+          - name: Authorization
+            value: "Bearer {{ admin_token }}"
+        notes: |
+          Admin only. Returns user order count, total spent, etc.
+

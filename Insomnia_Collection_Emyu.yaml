@@ -1,0 +1,1297 @@
+_type: export
+__export_format: 4
+__export_date: 2025-11-23T10:00:00.000Z
+__export_source: insomnia.desktop.app:v2023.5.8
+resources:
+  - _id: req_register
+    parentId: fld_auth
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/register"
+    name: Register New User
+    description: Register a new user account
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "name": "John Doe",
+          "email": "john@example.com",
+          "password": "password123",
+          "phone": "08123456789"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication: {}
+    metaSortKey: -1732320000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_register_admin
+    parentId: fld_auth
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/register"
+    name: Register Admin User
+    description: Register an admin account (for testing)
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "name": "Admin User",
+          "email": "admin@emyu.com",
+          "password": "admin123",
+          "phone": "08111111111"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication: {}
+    metaSortKey: -1732319000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_login
+    parentId: fld_auth
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/login"
+    name: Login
+    description: Login with email and password
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "email": "john@example.com",
+          "password": "password123"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication: {}
+    metaSortKey: -1732318000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_login_admin
+    parentId: fld_auth
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/login"
+    name: Login as Admin
+    description: Login with admin credentials
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "email": "admin@emyu.com",
+          "password": "admin123"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication: {}
+    metaSortKey: -1732317000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_logout
+    parentId: fld_auth
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/logout"
+    name: Logout
+    description: Logout current user
+    method: POST
+    body: {}
+    parameters: []
+    headers:
+      - name: Authorization
+        value: "Bearer {{ _.auth_token }}"
+    authentication: {}
+    metaSortKey: -1732316000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_get_products
+    parentId: fld_products
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/products"
+    name: Get All Products (Public)
+    description: Get list of all products
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1732315000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_get_product
+    parentId: fld_products
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/products/PRODUCT_ID"
+    name: Get Product by ID (Public)
+    description: Get detailed information of a specific product
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1732314000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_create_product
+    parentId: fld_products
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/products"
+    name: Create Product (Admin Only)
+    description: Create a new product
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "name": "Custom Jersey",
+          "description": "High quality custom jersey with name and number",
+          "price": 299000,
+          "category_id": "CATEGORY_ID",
+          "is_customizable": true
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: Authorization
+        value: "Bearer {{ _.admin_token }}"
+    authentication: {}
+    metaSortKey: -1732313000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_update_product
+    parentId: fld_products
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/products/PRODUCT_ID"
+    name: Update Product (Admin Only)
+    description: Update existing product
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "name": "Updated Product Name",
+          "description": "Updated description",
+          "price": 350000,
+          "category_id": "CATEGORY_ID",
+          "is_customizable": true
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: Authorization
+        value: "Bearer {{ _.admin_token }}"
+    authentication: {}
+    metaSortKey: -1732312000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_delete_product
+    parentId: fld_products
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/products/PRODUCT_ID"
+    name: Delete Product (Admin Only)
+    description: Delete a product
+    method: DELETE
+    body: {}
+    parameters: []
+    headers:
+      - name: Authorization
+        value: "Bearer {{ _.admin_token }}"
+    authentication: {}
+    metaSortKey: -1732311000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_get_categories
+    parentId: fld_categories
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/categories"
+    name: Get All Categories (Public)
+    description: Get list of all categories
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1732310000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_get_category
+    parentId: fld_categories
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/categories/CATEGORY_ID"
+    name: Get Category by ID (Public)
+    description: Get detailed information of a specific category
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1732309000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_create_category
+    parentId: fld_categories
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/categories"
+    name: Create Category (Admin Only)
+    description: Create a new product category
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "name": "Sports Jersey",
+          "description": "Custom sports jerseys for various teams"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: Authorization
+        value: "Bearer {{ _.admin_token }}"
+    authentication: {}
+    metaSortKey: -1732308000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_update_category
+    parentId: fld_categories
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/categories/CATEGORY_ID"
+    name: Update Category (Admin Only)
+    description: Update existing category
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "name": "Updated Category Name",
+          "description": "Updated category description"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: Authorization
+        value: "Bearer {{ _.admin_token }}"
+    authentication: {}
+    metaSortKey: -1732307000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_delete_category
+    parentId: fld_categories
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/categories/CATEGORY_ID"
+    name: Delete Category (Admin Only)
+    description: Delete a category
+    method: DELETE
+    body: {}
+    parameters: []
+    headers:
+      - name: Authorization
+        value: "Bearer {{ _.admin_token }}"
+    authentication: {}
+    metaSortKey: -1732306000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_get_cart
+    parentId: fld_cart
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/carts"
+    name: Get User Cart
+    description: Get current user's shopping cart with items
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: Authorization
+        value: "Bearer {{ _.auth_token }}"
+    authentication: {}
+    metaSortKey: -1732305000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_create_cart
+    parentId: fld_cart
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/carts"
+    name: Create Cart
+    description: Create a new shopping cart for current user
+    method: POST
+    body: {}
+    parameters: []
+    headers:
+      - name: Authorization
+        value: "Bearer {{ _.auth_token }}"
+    authentication: {}
+    metaSortKey: -1732304000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_add_to_cart
+    parentId: fld_cart
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/cart-items"
+    name: Add Item to Cart
+    description: Add a product variant to cart
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "cart_id": "CART_ID",
+          "product_variant_id": "VARIANT_ID",
+          "quantity": 1,
+          "custom_name": "PLAYER NAME",
+          "custom_number": "99"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: Authorization
+        value: "Bearer {{ _.auth_token }}"
+    authentication: {}
+    metaSortKey: -1732303000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_update_cart_item
+    parentId: fld_cart
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/cart-items/ITEM_ID"
+    name: Update Cart Item
+    description: Update cart item quantity or customization
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "quantity": 3,
+          "custom_name": "UPDATED NAME",
+          "custom_number": "10"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: Authorization
+        value: "Bearer {{ _.auth_token }}"
+    authentication: {}
+    metaSortKey: -1732302000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_remove_from_cart
+    parentId: fld_cart
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/cart-items/ITEM_ID"
+    name: Remove Item from Cart
+    description: Remove an item from cart
+    method: DELETE
+    body: {}
+    parameters: []
+    headers:
+      - name: Authorization
+        value: "Bearer {{ _.auth_token }}"
+    authentication: {}
+    metaSortKey: -1732301000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_get_orders
+    parentId: fld_orders
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/orders"
+    name: Get User Orders
+    description: Get all orders for current user
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: Authorization
+        value: "Bearer {{ _.auth_token }}"
+    authentication: {}
+    metaSortKey: -1732300000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_get_order
+    parentId: fld_orders
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/orders/ORDER_ID"
+    name: Get Order by ID
+    description: Get detailed information of a specific order
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: Authorization
+        value: "Bearer {{ _.auth_token }}"
+    authentication: {}
+    metaSortKey: -1732299000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_create_order
+    parentId: fld_orders
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/orders"
+    name: Create Order (Checkout)
+    description: Create order from cart items (checkout)
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "total_amount": 599000,
+          "shipping_cost": 25000,
+          "payment_method": "bank_transfer",
+          "shipping_address_id": "ADDRESS_ID"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: Authorization
+        value: "Bearer {{ _.auth_token }}"
+    authentication: {}
+    metaSortKey: -1732298000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_update_order_status
+    parentId: fld_orders
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/orders/ORDER_ID"
+    name: Update Order Status (Admin Only)
+    description: Update order status (admin only)
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "status": "paid"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: Authorization
+        value: "Bearer {{ _.admin_token }}"
+    authentication: {}
+    metaSortKey: -1732297000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_delete_order
+    parentId: fld_orders
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/orders/ORDER_ID"
+    name: Delete Order (Admin Only)
+    description: Delete an order (admin only)
+    method: DELETE
+    body: {}
+    parameters: []
+    headers:
+      - name: Authorization
+        value: "Bearer {{ _.admin_token }}"
+    authentication: {}
+    metaSortKey: -1732296000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_get_payments
+    parentId: fld_payments
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/payments"
+    name: Get All Payments
+    description: Get all payments for current user
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: Authorization
+        value: "Bearer {{ _.auth_token }}"
+    authentication: {}
+    metaSortKey: -1732295000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_get_payment
+    parentId: fld_payments
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/payments/PAYMENT_ID"
+    name: Get Payment by ID
+    description: Get detailed payment information
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: Authorization
+        value: "Bearer {{ _.auth_token }}"
+    authentication: {}
+    metaSortKey: -1732294000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_create_payment
+    parentId: fld_payments
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/payments"
+    name: Create Payment
+    description: Create payment record for an order
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "order_id": "ORDER_ID",
+          "payment_status": "pending"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: Authorization
+        value: "Bearer {{ _.auth_token }}"
+    authentication: {}
+    metaSortKey: -1732293000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_update_payment
+    parentId: fld_payments
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/payments/PAYMENT_ID"
+    name: Update Payment Status
+    description: Update payment status
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "payment_status": "success"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: Authorization
+        value: "Bearer {{ _.auth_token }}"
+    authentication: {}
+    metaSortKey: -1732292000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_get_product_reviews
+    parentId: fld_reviews
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/reviews/products/PRODUCT_ID"
+    name: Get Product Reviews (Public)
+    description: Get all reviews for a specific product
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1732291000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_get_user_reviews
+    parentId: fld_reviews
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/reviews/user"
+    name: Get User Reviews
+    description: Get all reviews written by current user
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: Authorization
+        value: "Bearer {{ _.auth_token }}"
+    authentication: {}
+    metaSortKey: -1732290000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_create_review
+    parentId: fld_reviews
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/reviews"
+    name: Create Review
+    description: Create a product review
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "product_id": "PRODUCT_ID",
+          "rating": 5,
+          "comment": "Excellent product! Great quality and fast delivery."
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: Authorization
+        value: "Bearer {{ _.auth_token }}"
+    authentication: {}
+    metaSortKey: -1732289000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_update_review
+    parentId: fld_reviews
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/reviews/REVIEW_ID"
+    name: Update Review
+    description: Update existing review
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "rating": 4,
+          "comment": "Good product, updated my review."
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: Authorization
+        value: "Bearer {{ _.auth_token }}"
+    authentication: {}
+    metaSortKey: -1732288000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_delete_review
+    parentId: fld_reviews
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/reviews/REVIEW_ID"
+    name: Delete Review
+    description: Delete a review
+    method: DELETE
+    body: {}
+    parameters: []
+    headers:
+      - name: Authorization
+        value: "Bearer {{ _.auth_token }}"
+    authentication: {}
+    metaSortKey: -1732287000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_get_addresses
+    parentId: fld_shipping
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/shipping-addresses"
+    name: Get Shipping Addresses
+    description: Get all shipping addresses for current user
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: Authorization
+        value: "Bearer {{ _.auth_token }}"
+    authentication: {}
+    metaSortKey: -1732286000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_get_address
+    parentId: fld_shipping
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/shipping-addresses/ADDRESS_ID"
+    name: Get Address by ID
+    description: Get specific shipping address details
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: Authorization
+        value: "Bearer {{ _.auth_token }}"
+    authentication: {}
+    metaSortKey: -1732285000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_create_address
+    parentId: fld_shipping
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/shipping-addresses"
+    name: Create Shipping Address
+    description: Add a new shipping address
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "address": "Jl. Merdeka No. 123, Kelurahan ABC",
+          "city": "Jakarta Selatan",
+          "province": "DKI Jakarta",
+          "postal_code": "12345",
+          "phone": "08123456789"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: Authorization
+        value: "Bearer {{ _.auth_token }}"
+    authentication: {}
+    metaSortKey: -1732284000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_update_address
+    parentId: fld_shipping
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/shipping-addresses/ADDRESS_ID"
+    name: Update Shipping Address
+    description: Update existing shipping address
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "address": "Jl. Kemerdekaan No. 456, Updated",
+          "city": "Bandung",
+          "province": "Jawa Barat",
+          "postal_code": "40123",
+          "phone": "08198765432"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: Authorization
+        value: "Bearer {{ _.auth_token }}"
+    authentication: {}
+    metaSortKey: -1732283000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_delete_address
+    parentId: fld_shipping
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/shipping-addresses/ADDRESS_ID"
+    name: Delete Shipping Address
+    description: Delete a shipping address
+    method: DELETE
+    body: {}
+    parameters: []
+    headers:
+      - name: Authorization
+        value: "Bearer {{ _.auth_token }}"
+    authentication: {}
+    metaSortKey: -1732282000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_get_all_users
+    parentId: fld_users
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/users"
+    name: Get All Users (Admin)
+    description: Get list of all users
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: Authorization
+        value: "Bearer {{ _.admin_token }}"
+    authentication: {}
+    metaSortKey: -1732281000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_get_user
+    parentId: fld_users
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/users/USER_ID"
+    name: Get User by ID (Admin)
+    description: Get detailed user information
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: Authorization
+        value: "Bearer {{ _.admin_token }}"
+    authentication: {}
+    metaSortKey: -1732280000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_update_user
+    parentId: fld_users
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/users/USER_ID"
+    name: Update User (Admin)
+    description: Update user information
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "name": "Updated Name",
+          "email": "newemail@example.com",
+          "phone": "08987654321",
+          "role": "user"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: Authorization
+        value: "Bearer {{ _.admin_token }}"
+    authentication: {}
+    metaSortKey: -1732279000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_delete_user
+    parentId: fld_users
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/users/USER_ID"
+    name: Delete User (Admin)
+    description: Delete a user account
+    method: DELETE
+    body: {}
+    parameters: []
+    headers:
+      - name: Authorization
+        value: "Bearer {{ _.admin_token }}"
+    authentication: {}
+    metaSortKey: -1732278000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_user_stats
+    parentId: fld_users
+    modified: 1732320000000
+    created: 1732320000000
+    url: "{{ _.base_url }}/api/users/USER_ID/stats"
+    name: Get User Stats (Admin)
+    description: Get user statistics and activity
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: Authorization
+        value: "Bearer {{ _.admin_token }}"
+    authentication: {}
+    metaSortKey: -1732277000000
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_auth
+    parentId: wrk_emyu
+    modified: 1732320000000
+    created: 1732320000000
+    name: 1. AUTHENTICATION
+    description: User registration, login, and logout
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1732320000000
+    _type: request_group
+  - _id: fld_products
+    parentId: wrk_emyu
+    modified: 1732320000000
+    created: 1732320000000
+    name: 2. PRODUCTS
+    description: Product management - public read access, admin write access
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1732319000000
+    _type: request_group
+  - _id: fld_categories
+    parentId: wrk_emyu
+    modified: 1732320000000
+    created: 1732320000000
+    name: 3. CATEGORIES
+    description: Product category management
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1732318000000
+    _type: request_group
+  - _id: fld_cart
+    parentId: wrk_emyu
+    modified: 1732320000000
+    created: 1732320000000
+    name: 4. SHOPPING CART
+    description: Shopping cart management for authenticated users
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1732317000000
+    _type: request_group
+  - _id: fld_orders
+    parentId: wrk_emyu
+    modified: 1732320000000
+    created: 1732320000000
+    name: 5. ORDERS
+    description: Order management and checkout
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1732316000000
+    _type: request_group
+  - _id: fld_payments
+    parentId: wrk_emyu
+    modified: 1732320000000
+    created: 1732320000000
+    name: 6. PAYMENTS
+    description: Payment processing and tracking
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1732315000000
+    _type: request_group
+  - _id: fld_reviews
+    parentId: wrk_emyu
+    modified: 1732320000000
+    created: 1732320000000
+    name: 7. REVIEWS
+    description: Product reviews and ratings
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1732314000000
+    _type: request_group
+  - _id: fld_shipping
+    parentId: wrk_emyu
+    modified: 1732320000000
+    created: 1732320000000
+    name: 8. SHIPPING ADDRESSES
+    description: User shipping address management
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1732313000000
+    _type: request_group
+  - _id: fld_users
+    parentId: wrk_emyu
+    modified: 1732320000000
+    created: 1732320000000
+    name: 9. USER MANAGEMENT (Admin)
+    description: User administration and management
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1732312000000
+    _type: request_group
+  - _id: wrk_emyu
+    parentId: null
+    modified: 1732320000000
+    created: 1732320000000
+    name: EMYU E-Commerce API (Golang)
+    description: Complete API collection for EMYU E-Commerce Backend built with Golang & Gin framework
+    scope: collection
+    _type: workspace
+  - _id: env_wrk_emyu
+    parentId: wrk_emyu
+    modified: 1732320000000
+    created: 1732320000000
+    name: Base Environment
+    data:
+      base_url: http://localhost:8080
+      auth_token: ""
+      admin_token: ""
+    dataPropertyOrder:
+      "&":
+        - base_url
+        - auth_token
+        - admin_token
+    color: null
+    isPrivate: false
+    metaSortKey: 1732320000000
+    _type: environment
+  - _id: jar_wrk_emyu
+    parentId: wrk_emyu
+    modified: 1732320000000
+    created: 1732320000000
+    name: Default Jar
+    cookies: []
+    _type: cookie_jar
