@@ -5,10 +5,10 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/gin-gonic/gin"
 	"github.com/emyu/ecommer-be/database"
 	"github.com/emyu/ecommer-be/models"
 	"github.com/emyu/ecommer-be/utils"
+	"github.com/gin-gonic/gin"
 )
 
 func GetAllProducts(c *gin.Context) {
@@ -57,11 +57,11 @@ func GetProductByID(c *gin.Context) {
 
 func CreateProduct(c *gin.Context) {
 	var req struct {
-		Name            string  `json:"name" binding:"required"`
-		Description     string  `json:"description"`
-		Price           float64 `json:"price" binding:"required"`
-		CategoryID      string  `json:"category_id"`
-		IsCustomizable  bool    `json:"is_customizable"`
+		Name           string  `json:"name" binding:"required"`
+		Description    string  `json:"description"`
+		Price          float64 `json:"price" binding:"required"`
+		CategoryID     *string `json:"category_id"`
+		IsCustomizable bool    `json:"is_customizable"`
 	}
 
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -70,10 +70,19 @@ func CreateProduct(c *gin.Context) {
 	}
 
 	productID := utils.GenerateID()
+
+	// Handle nullable category_id
+	var categoryID interface{}
+	if req.CategoryID != nil && *req.CategoryID != "" {
+		categoryID = *req.CategoryID
+	} else {
+		categoryID = nil
+	}
+
 	_, err := database.DB.Exec(`
 		INSERT INTO products (id, name, description, price, category_id, is_customizable)
 		VALUES (?, ?, ?, ?, ?, ?)
-	`, productID, req.Name, req.Description, req.Price, req.CategoryID, req.IsCustomizable)
+	`, productID, req.Name, req.Description, req.Price, categoryID, req.IsCustomizable)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create product"})
@@ -86,11 +95,11 @@ func CreateProduct(c *gin.Context) {
 func UpdateProduct(c *gin.Context) {
 	id := c.Param("id")
 	var req struct {
-		Name            string  `json:"name"`
-		Description     string  `json:"description"`
-		Price           float64 `json:"price"`
-		CategoryID      string  `json:"category_id"`
-		IsCustomizable  bool    `json:"is_customizable"`
+		Name           *string  `json:"name"`
+		Description    *string  `json:"description"`
+		Price          *float64 `json:"price"`
+		CategoryID     *string  `json:"category_id"`
+		IsCustomizable *bool    `json:"is_customizable"`
 	}
 
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -101,21 +110,29 @@ func UpdateProduct(c *gin.Context) {
 	var updates []string
 	var args []interface{}
 
-	if req.Name != "" {
+	if req.Name != nil && *req.Name != "" {
 		updates = append(updates, "name = ?")
-		args = append(args, req.Name)
+		args = append(args, *req.Name)
 	}
-	if req.Description != "" {
+	if req.Description != nil {
 		updates = append(updates, "description = ?")
-		args = append(args, req.Description)
+		args = append(args, *req.Description)
 	}
-	if req.Price > 0 {
+	if req.Price != nil && *req.Price > 0 {
 		updates = append(updates, "price = ?")
-		args = append(args, req.Price)
+		args = append(args, *req.Price)
 	}
-	if req.CategoryID != "" {
-		updates = append(updates, "category_id = ?")
-		args = append(args, req.CategoryID)
+	if req.CategoryID != nil {
+		if *req.CategoryID != "" {
+			updates = append(updates, "category_id = ?")
+			args = append(args, *req.CategoryID)
+		} else {
+			updates = append(updates, "category_id = NULL")
+		}
+	}
+	if req.IsCustomizable != nil {
+		updates = append(updates, "is_customizable = ?")
+		args = append(args, *req.IsCustomizable)
 	}
 
 	args = append(args, id)
