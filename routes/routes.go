@@ -27,6 +27,7 @@ func SetupRoutes(router *gin.Engine) {
 	protected := router.Group("/api")
 	protected.Use(middleware.AuthMiddleware())
 	{
+		protected.GET("/me", handlers.GetMyProfile)
 		protected.POST("/logout", handlers.Logout)
 
 		// Cart
