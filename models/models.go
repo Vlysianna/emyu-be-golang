@@ -131,12 +131,13 @@ type Order struct {
 
 // OrderItem
 type OrderItem struct {
-	ID               string    `json:"id"`
-	OrderID          string    `json:"order_id"`
-	ProductVariantID string    `json:"product_variant_id"`
-	Quantity         int       `json:"quantity"`
-	Price            float64   `json:"price"`
-	CreatedAt        time.Time `json:"created_at"`
+	ID               string          `json:"id"`
+	OrderID          string          `json:"order_id"`
+	ProductVariantID string          `json:"product_variant_id"`
+	Quantity         int             `json:"quantity"`
+	Price            float64         `json:"price"`
+	CreatedAt        time.Time       `json:"created_at"`
+	ProductVariant   *ProductVariant `json:"product_variant,omitempty"`
 }
 
 // Payment

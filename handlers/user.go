@@ -11,7 +11,7 @@ import (
 
 func GetAllUsers(c *gin.Context) {
 	rows, err := database.DB.Query(`
-		SELECT id, name, email, phone, role, created_at, updated_at
+		SELECT id, name, email, phone, role_id, created_at, updated_at
 		FROM users ORDER BY created_at DESC
 	`)
 
@@ -24,8 +24,17 @@ func GetAllUsers(c *gin.Context) {
 	var users []models.User
 	for rows.Next() {
 		var user models.User
-		rows.Scan(&user.ID, &user.Name, &user.Email, &user.Phone, &user.Role, &user.CreatedAt, &user.UpdatedAt)
+		err := rows.Scan(&user.ID, &user.Name, &user.Email, &user.Phone, &user.RoleID, &user.CreatedAt, &user.UpdatedAt)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to scan user"})
+			return
+		}
 		users = append(users, user)
+	}
+
+	if err := rows.Err(); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error reading users"})
+		return
 	}
 
 	if users == nil {
@@ -40,12 +49,16 @@ func GetUserByID(c *gin.Context) {
 	var user models.User
 
 	err := database.DB.QueryRow(`
-		SELECT id, name, email, phone, role, created_at, updated_at
+		SELECT id, name, email, phone, role_id, created_at, updated_at
 		FROM users WHERE id = ?
-	`, userID).Scan(&user.ID, &user.Name, &user.Email, &user.Phone, &user.Role, &user.CreatedAt, &user.UpdatedAt)
+	`, userID).Scan(&user.ID, &user.Name, &user.Email, &user.Phone, &user.RoleID, &user.CreatedAt, &user.UpdatedAt)
 
 	if err == sql.ErrNoRows {
 		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		return
+	}
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch user"})
 		return
 	}
 
@@ -55,10 +68,10 @@ func GetUserByID(c *gin.Context) {
 func UpdateUser(c *gin.Context) {
 	userID := c.Param("id")
 	var req struct {
-		Name  string `json:"name"`
-		Email string `json:"email"`
-		Phone string `json:"phone"`
-		Role  string `json:"role" binding:"oneof=admin user"`
+		Name   string `json:"name"`
+		Email  string `json:"email"`
+		Phone  string `json:"phone"`
+		RoleID int    `json:"role_id"`
 	}
 
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -67,8 +80,8 @@ func UpdateUser(c *gin.Context) {
 	}
 
 	_, err := database.DB.Exec(`
-		UPDATE users SET name = ?, email = ?, phone = ?, role = ? WHERE id = ?
-	`, req.Name, req.Email, req.Phone, req.Role, userID)
+		UPDATE users SET name = ?, email = ?, phone = ?, role_id = ? WHERE id = ?
+	`, req.Name, req.Email, req.Phone, req.RoleID, userID)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update user"})
@@ -100,13 +113,25 @@ func GetUserStats(c *gin.Context) {
 	}{}
 
 	// Get total orders
-	database.DB.QueryRow("SELECT COUNT(*) FROM orders WHERE user_id = ?", userID).Scan(&stats.TotalOrders)
+	err := database.DB.QueryRow("SELECT COUNT(*) FROM orders WHERE user_id = ?", userID).Scan(&stats.TotalOrders)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch order stats"})
+		return
+	}
 
 	// Get total spent
-	database.DB.QueryRow("SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE user_id = ?", userID).Scan(&stats.TotalSpent)
+	err = database.DB.QueryRow("SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE user_id = ?", userID).Scan(&stats.TotalSpent)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch spending stats"})
+		return
+	}
 
 	// Get total reviews
-	database.DB.QueryRow("SELECT COUNT(*) FROM reviews WHERE user_id = ?", userID).Scan(&stats.TotalReviews)
+	err = database.DB.QueryRow("SELECT COUNT(*) FROM reviews WHERE user_id = ?", userID).Scan(&stats.TotalReviews)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch review stats"})
+		return
+	}
 
 	c.JSON(http.StatusOK, stats)
 }

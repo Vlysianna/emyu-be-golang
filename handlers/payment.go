@@ -5,10 +5,10 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/gin-gonic/gin"
 	"github.com/emyu/ecommer-be/database"
 	"github.com/emyu/ecommer-be/models"
 	"github.com/emyu/ecommer-be/utils"
+	"github.com/gin-gonic/gin"
 )
 
 func GetPayments(c *gin.Context) {

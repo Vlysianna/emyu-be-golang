@@ -66,7 +66,7 @@ func SetupRoutes(router *gin.Engine) {
 	}
 
 	// Admin routes
-	admin := router.Group("/api")
+	admin := router.Group("/api/admin")
 	admin.Use(middleware.AuthMiddleware(), middleware.AdminMiddleware())
 	{
 		// Products
@@ -80,6 +80,7 @@ func SetupRoutes(router *gin.Engine) {
 		admin.DELETE("/categories/:id", handlers.DeleteCategory)
 
 		// Order management
+		admin.GET("/orders", handlers.GetAllOrders)
 		admin.PUT("/orders/:id", handlers.UpdateOrderStatus)
 		admin.DELETE("/orders/:id", handlers.DeleteOrder)
 
